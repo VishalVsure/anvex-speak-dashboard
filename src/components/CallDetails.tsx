@@ -1,5 +1,5 @@
 "use client";
-
+// @ts-ignore
 import { useEffect, useState } from "react";
 import {
   Table,
@@ -102,6 +102,7 @@ export default function Component() {
       setTranscript(text);
       setFormattedTranscript(formatTranscript(text));
       console.log(text);
+      console.log(transcript);
     } catch (error) {
       console.error("Error fetching transcript:", error);
       setTranscript("Failed to load transcript");

@@ -1,5 +1,5 @@
 "use client";
-
+// @ts-ignore
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PhoneCall, PhoneOutgoing, Clock, Calendar, User } from "lucide-react";
+import { PhoneCall, PhoneOutgoing, Clock, User } from "lucide-react";
 import DashboardLayout from "@/layout/DashboardLayout";
 
 // Sample agent data

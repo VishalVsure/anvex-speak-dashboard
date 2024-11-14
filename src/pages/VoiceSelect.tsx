@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Play, Check } from "lucide-react";
+import { Play } from "lucide-react";
 import DashboardLayout from "@/layout/DashboardLayout";
 import CustomVoiceSample from "@/components/CustomVoice";
 
@@ -53,15 +53,15 @@ export default function VoiceSelection() {
     setTimeout(() => setIsPlaying(null), 3000); // Simulate audio playback
   };
 
-  const handleSubmit = () => {
-    if (selectedVoice) {
-      toast(
-        `Voice "${
-          voices.find((v) => v.id === selectedVoice)?.name
-        }" selected for the bot!`
-      );
-    }
-  };
+  // const handleSubmit = () => {
+  //   if (selectedVoice) {
+  //     toast(
+  //       `Voice "${
+  //         voices.find((v) => v.id === selectedVoice)?.name
+  //       }" selected for the bot!`
+  //     );
+  //   }
+  // };
 
   return (
     <DashboardLayout>
