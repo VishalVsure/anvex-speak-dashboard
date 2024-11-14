@@ -1,9 +1,10 @@
+import CallDetailsTable from "@/components/CallDetails";
 import DashboardLayout from "@/layout/DashboardLayout";
 
 const Dashboard = () => {
   return (
     <DashboardLayout>
-      <p>Hiiiiiiiiiii</p>
+      <CallDetailsTable />
     </DashboardLayout>
   );
 };

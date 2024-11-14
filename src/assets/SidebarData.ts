@@ -4,6 +4,7 @@ interface SidebarData {
 }
 
 const sidebarData: SidebarData[] = [
+    { title: "Home", slug: "dashboard" },
     { title: "Knowledge Base", slug: "knowledge-base" },
     { title: "Agent Voices", slug: "agent-voices" },
     { title: "List of Interactions", slug: "interaction" },
