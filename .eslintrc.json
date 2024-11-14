@@ -1,0 +1,9 @@
+{
+    "extends": "eslint:recommended",
+    "rules": {
+      "no-unused-vars": "off", // Disable 'no-unused-vars' rule
+      "no-console": "warn", // Set 'no-console' to a warning level
+      "semi": ["error", "always"] // Force semicolons
+    }
+  }
+  

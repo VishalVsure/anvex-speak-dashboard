@@ -1,8 +1,12 @@
-import Sidebar from "@/components/Sidebar";
-import React from "react";
+import CallDetailsTable from "@/components/CallDetails";
+import DashboardLayout from "@/layout/DashboardLayout";
 
 const Dashboard = () => {
-  return <Sidebar />;
+  return (
+    <DashboardLayout>
+      <CallDetailsTable />
+    </DashboardLayout>
+  );
 };
 
 export default Dashboard;
