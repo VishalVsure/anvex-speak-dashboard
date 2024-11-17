@@ -1,129 +1,112 @@
-"use client";
+import { useState } from 'react'
+import * as XLSX from 'xlsx'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import DashboardLayout from '@/layout/DashboardLayout'
+import axios from 'axios'
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CheckCircle2, ArrowRight, ExternalLink } from "lucide-react";
-import DashboardLayout from "@/layout/DashboardLayout";
+interface reqBody {
+  range: string; // Specify the range (e.g., "Sheet1!A1:B1")
+  values: string[][];
+}
+export default function ExcelUploader() {
+  const [excelData, setExcelData] = useState<any[][]>([])
+  const [fileName, setFileName] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
-export default function GoogleSheetSetup() {
-  const [sheetUrl, setSheetUrl] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (sheetUrl) {
-      setIsSubmitted(true);
+    setFileName(file.name)
+    setLoading(true)
+    setError(null)
+
+    try {
+      const data = await file.arrayBuffer()
+      const workbook = XLSX.read(data)
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]]
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 }) as any[][]
+      setExcelData(jsonData)
+      // console.log(excelData)
+    } catch (err) {
+      setError('Error parsing Excel file. Please make sure it\'s a valid Excel document.')
+      console.error(err)
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
+  const handleSubmit = async() => {
+    console.log(excelData);
+    const requestBody: reqBody = {
+      range: 'Akila Final Call List!A2',
+      values: excelData.slice(1)
+    } 
+
+    try {
+      const response = await axios.put('https://anvex-akila-demo.onrender.com/api/sheets/update',requestBody)
+      console.log(response)
+    } catch (error) {
+      console.error("Error adding rows:", error);
+    }
+
+  }
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-background text-foreground">
-        <main className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">Set Up Your Google Sheet</h1>
-
-          <div className="space-y-12">
-            <section className="space-y-4">
-              <h2 className="text-2xl font-semibold flex items-center">
-                <span className="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                  1
-                </span>
-                Create a Blank Google Sheet
-              </h2>
-              <p>
-                Start by creating a new Google Sheet that will be used for your
-                project.
-              </p>
-              <ol className="list-decimal list-inside space-y-2 ml-4">
-                <li>
-                  Go to{" "}
-                  <a
-                    href="https://sheets.google.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline"
-                  >
-                    Google Sheets
-                  </a>
-                </li>
-                <li>
-                  Click on the &quot;Blank&quot; template to create a new sheet
-                </li>
-                <li>
-                  Give your sheet a meaningful name by clicking on
-                  &quot;Untitled spreadsheet&quot; at the top
-                </li>
-              </ol>
-              <Button variant="outline" className="mt-2">
-                <ExternalLink className="w-4 h-4 mr-2" />
-                Open Google Sheets
-              </Button>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-semibold flex items-center">
-                <span className="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                  2
-                </span>
-                Share the Google Sheet
-              </h2>
-              <p>
-                Next, you need to make your Google Sheet accessible to others.
-              </p>
-              <ol className="list-decimal list-inside space-y-2 ml-4">
-                <li>
-                  Click on the &quot;Share&quot; button in the top right corner
-                </li>
-                <li>
-                  In the &quot;Share with people and groups&quot; window, click
-                  on &quot;Change to anyone with the link&quot;
-                </li>
-                <li>Ensure that the access is set to &quot;Editor&quot;</li>
-                <li>Click on &quot;Copy link&quot; to get the shareable URL</li>
-              </ol>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-semibold flex items-center">
-                <span className="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                  3
-                </span>
-                Enter the Sheet URL
-              </h2>
-              <p>
-                Finally, paste the copied Google Sheet URL in the input box
-                below.
-              </p>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="sheet-url">Google Sheet URL</Label>
-                  <Input
-                    id="sheet-url"
-                    type="url"
-                    placeholder="https://docs.google.com/spreadsheets/d/..."
-                    value={sheetUrl}
-                    onChange={(e) => setSheetUrl(e.target.value)}
-                    required
-                  />
-                </div>
-                <Button type="submit">
-                  Submit
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </form>
-            </section>
+    <div className="container mx-auto p-4">
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>Excel File Uploader</CardTitle>
+          <CardDescription>Upload an Excel file to parse its contents</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center space-x-4 mb-4">
+            <Input
+              type="file"
+              accept=".xlsx, .xls"
+              onChange={handleFileUpload}
+              className="flex-grow"
+            />
+            <Button onClick={handleSubmit} disabled={loading}>
+              {loading ? 'Uploading...' : 'Upload'}
+            </Button>
           </div>
+          
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          
+          {fileName && !error && (
+            <p className="mb-4">Uploaded file: {fileName}</p>
+          )}
 
-          {isSubmitted && (
-            <div className="mt-8 p-4 bg-green-100 text-green-800 rounded-lg flex items-center">
-              <CheckCircle2 className="w-6 h-6 mr-2" />
-              <p>Great! Your Google Sheet has been successfully linked.</p>
+          {excelData.length > 0 && (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {excelData[0].map((header, index) => (
+                      <TableHead key={index}>{header}</TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {excelData.slice(1).map((row, rowIndex) => (
+                    <TableRow key={rowIndex}>
+                      {row.map((cell, cellIndex) => (
+                        <TableCell key={cellIndex}>{cell}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           )}
-        </main>
-      </div>
+        </CardContent>
+      </Card>
+    </div>
     </DashboardLayout>
-  );
+  )
 }

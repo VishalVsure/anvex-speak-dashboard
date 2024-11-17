@@ -120,7 +120,7 @@ export default function Component() {
             <TableHead>Number</TableHead>
             <TableHead>Call Time</TableHead>
             <TableHead>Duration</TableHead>
-            <TableHead>Response</TableHead>
+            {/* <TableHead>Response</TableHead> */}
             <TableHead>Details</TableHead>
           </TableRow>
         </TableHeader>
@@ -131,7 +131,7 @@ export default function Component() {
               <TableCell>{call.number}</TableCell>
               <TableCell>{call.call_time}</TableCell>
               <TableCell>{call.duration}</TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <span
                   className={`font-semibold ${
                     call.overall_response === "Positive"
@@ -143,7 +143,7 @@ export default function Component() {
                 >
                   {call.overall_response}
                 </span>
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
@@ -177,10 +177,10 @@ export default function Component() {
                         <div>
                           <strong>Duration:</strong> {selectedCall.duration}
                         </div>
-                        <div>
+                        {/* <div>
                           <strong>Response:</strong>{" "}
                           {selectedCall.overall_response}
-                        </div>
+                        </div> */}
                         <div className=""></div>
                         <div className="col-span-3">
                           <strong>Transcript: </strong>
