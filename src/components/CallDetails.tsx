@@ -1,5 +1,3 @@
-"use client";
-// @ts-ignore
 import { useEffect, useState } from "react";
 import {
   Table,
@@ -87,7 +85,11 @@ function AudioPlayer({ src, isOpen }: { src: string; isOpen: boolean }) {
   );
 }
 
-export default function Component() {
+export default function Component({
+  userData = [],
+}: {
+  userData: CallDetails[];
+}) {
   const [selectedCall, setSelectedCall] = useState<CallDetails | null>(null);
   const [transcript, setTranscript] = useState<string>("");
   const [formattedTranscript, setFormattedTranscript] = useState<
@@ -110,6 +112,31 @@ export default function Component() {
     }
   };
 
+  // Function to format the transcript with styles
+  const formatTranscript = (transcript: string) => {
+    return transcript.split(/(?=AI:|User:)/).map((line, index) => {
+      const isAI = line.startsWith("AI:");
+      const [label, ...messageParts] = line.split(":");
+      const message = messageParts.join(":").trim();
+
+      return (
+        <div
+          key={index}
+          className={`flex items-start gap-2 mb-2 ${
+            isAI ? "bg-gray-100 text-gray-800" : "bg-white text-black"
+          } p-2 rounded-md`}
+        >
+          <strong
+            className={`w-10 shrink-0 ${isAI ? "text-gray-800" : "text-black"}`}
+          >
+            {label}:
+          </strong>
+          <span>{message}</span>
+        </div>
+      );
+    });
+  };
+
   return (
     <div className="container mx-auto">
       <p className="text-3xl font-bold pb-6">Call Records of Akila</p>
@@ -125,7 +152,7 @@ export default function Component() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((call, index) => (
+          {userData.map((call, index) => (
             <TableRow key={index}>
               <TableCell>{call.name}</TableCell>
               <TableCell>{call.number}</TableCell>
@@ -150,14 +177,14 @@ export default function Component() {
                     <Button
                       onClick={() => {
                         setSelectedCall(call);
-                        fetchTranscript(call.transcript);
+                        // fetchTranscript(call.transcript);
                         setIsDialogOpen(true);
                       }}
                     >
                       View Details
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="md:max-w-4xl">
+                  <DialogContent className="md:max-w-4xl h-full overflow-auto">
                     <DialogHeader>
                       <DialogTitle className="text-2xl">
                         Call Details
@@ -188,10 +215,16 @@ export default function Component() {
                             src={selectedCall.recording}
                             isOpen={isDialogOpen}
                           />
-                          <div className="max-h-80 overflow-y-auto mt-2 p-2 border rounded">
-                            <Table>
-                              <TableBody>
-                                {formattedTranscript.map((entry, index) => (
+                          {/* <div className="max-h-80 overflow-y-auto mt-2 p-2 border rounded"> */}
+                          {/* <Table>
+                              <TableBody> */}
+                          <div
+                            className="transcript-container overflow-y-auto max-h-96 border rounded-md p-4 mt-[15px]
+"
+                          >
+                            {formatTranscript(selectedCall.transcript)}
+                          </div>
+                          {/* {formattedTranscript.map((entry, index) => (
                                   <TableRow
                                     key={index}
                                     className={`${
@@ -203,9 +236,17 @@ export default function Component() {
                                     </TableCell>
                                     <TableCell>{entry.text}</TableCell>
                                   </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
+                                ))} */}
+                          {/* </TableBody>
+                            </Table> */}
+                          {/* </div> */}
+                          <div className="p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
+                            <h2 className="text-xl font-bold mb-4 text-gray-800">
+                              Conference Announcement
+                            </h2>
+                            <p className="text-gray-700 leading-relaxed text-justify">
+                              {selectedCall.overall_response}
+                            </p>
                           </div>
                         </div>
                       </div>

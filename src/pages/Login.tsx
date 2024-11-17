@@ -31,7 +31,7 @@ export default function LoginPage() {
     try {
       const user = { username: "VCS", email: mail, token: "abcdg" };
       dispatch(set_user(user));
-      Navigate("/dashboard");
+      Navigate("/instructions");
     } catch (err) {
       console.log("ERROR: ", err);
     }

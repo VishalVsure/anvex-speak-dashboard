@@ -9,16 +9,18 @@ import SignupPage from "@/pages/Signup";
 import VoiceSelection from "@/pages/VoiceSelect";
 import Settings from "@/pages/Settings";
 import { Route, Routes } from "react-router-dom";
+import HomeInstructions from "@/pages/HomeInstructions";
 
 const Router: React.FC = () => (
   <Routes>
     <Route path="/" element={<App />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/signup" element={<SignupPage />} />
-    <Route path="/dashboard" element={<Dashboard />} />
+    <Route path="/call-records" element={<Dashboard />} />
+    <Route path="/instructions" element={<HomeInstructions />} />
     <Route path="/knowledge-base" element={<KnowledgeBaseUpload />} />
     <Route path="/agent-voices" element={<VoiceSelection />} />
-    <Route path="/interaction" element={<GoogleSheetSetup />} />
+    <Route path="/uploadFile" element={<GoogleSheetSetup />} />
     <Route path="/agent-creation" element={<AgentCreation />} />
     <Route path="/agent-config" element={<AgentConfiguration />} />
     <Route path="/settings" element={<Settings />} />
