@@ -34,9 +34,12 @@ export default function LoginPage() {
 
     try {
       const range = "Auth!A2:Z"; // Adjust the range to include all necessary data
-      const res = await axios.get("http://localhost:3000/api/sheets/read", {
-        params: { email, range },
-      });
+      const res = await axios.get(
+        "https://anvex-akila-demo.onrender.com/api/sheets/read",
+        {
+          params: { email, range },
+        }
+      );
 
       console.log("Response Data:", res.data); // Log the response to see its structure
 

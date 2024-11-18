@@ -44,10 +44,13 @@ export default function SignUpPage() {
       const range = "Auth!A2";
       const row = [email, hashedPassword];
       const values = [row];
-      const res = await axios.post("http://localhost:3000/api/sheets/create", {
-        range,
-        values,
-      });
+      const res = await axios.post(
+        "https://anvex-akila-demo.onrender.com/api/sheets/create",
+        {
+          range,
+          values,
+        }
+      );
 
       if (res.status == 200) {
         console.log("user added");
