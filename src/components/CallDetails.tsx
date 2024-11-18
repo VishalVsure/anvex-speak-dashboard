@@ -139,7 +139,7 @@ export default function Component({
 
   return (
     <div className="container mx-auto">
-      <p className="text-3xl font-bold pb-6">Call Records of Akila</p>
+      <p className="text-3xl font-bold pb-6">Call Logs (Akila)</p>
       <Table>
         <TableHeader>
           <TableRow>
@@ -184,7 +184,7 @@ export default function Component({
                       View Details
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="md:max-w-4xl h-full overflow-auto">
+                  <DialogContent className="md:max-w-4xl h-3/4 overflow-auto">
                     <DialogHeader>
                       <DialogTitle className="text-2xl">
                         Call Details

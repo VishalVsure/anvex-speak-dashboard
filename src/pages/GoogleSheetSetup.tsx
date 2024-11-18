@@ -142,7 +142,7 @@ export default function ExcelUploader() {
         {/* <Card className="w-full"> */}
         <CardHeader className="space-y-0 p-0 px-6">
           <CardTitle className="flex items-center justify-between text-2xl pt-1 pb-2">
-            <p>Excel File Uploader</p>
+            <p>File Uploader</p>
             {submitted && (
               <div className="flex items-center">
                 <p className="font-normal px-2 text-md">Start Calls</p>
@@ -152,7 +152,7 @@ export default function ExcelUploader() {
             {/* <Switch /> */}
           </CardTitle>
           <CardDescription className="pb-2">
-            Upload an Excel file to parse its contents
+            Select a excel file to make the calls
           </CardDescription>
         </CardHeader>
         <CardContent>

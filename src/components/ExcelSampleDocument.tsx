@@ -11,18 +11,13 @@ const DownloadExcel = () => {
   return (
     <button
       onClick={downloadExcel}
-      style={buttonStyle}
       title="Download Sample Excel Document" // Tooltip text
+      className="flex px-4 py-2 shadow-md rounded-md border-2"
     >
+      <span className="font-semibold pr-2">Download the Sample Excel</span>
       <FontAwesomeIcon icon={faFileExcel} style={iconStyle} />
     </button>
   );
-};
-
-const buttonStyle = {
-  backgroundColor: "transparent",
-  border: "none",
-  cursor: "pointer",
 };
 
 const iconStyle = {
