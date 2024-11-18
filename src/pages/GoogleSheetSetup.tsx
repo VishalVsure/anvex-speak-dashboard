@@ -45,21 +45,19 @@ export default function ExcelUploader() {
 
   const handleToggle = async (): Promise<void> => {
     setChecked(true);
-    if (checked) {
-      try {
-        const response = await axios.get(
-          "https://hook.eu2.make.com/dvzwgyc8gjl32gtnrt7isxtq2wqnpij0"
-        );
+    try {
+      const response = await axios.get(
+        "https://hook.eu2.make.com/dvzwgyc8gjl32gtnrt7isxtq2wqnpij0"
+      );
 
-        if (response.status === 200) {
-          // localStorage.setItem("toggle", checked.toString());
-          console.log("Webhook triggered successfully");
-        } else {
-          console.error("Failed to trigger webhook");
-        }
-      } catch (error) {
-        console.error("Error triggering webhook:", error);
+      if (response.status === 200) {
+        // localStorage.setItem("toggle", checked.toString());
+        console.log("Webhook triggered successfully");
+      } else {
+        console.error("Failed to trigger webhook");
       }
+    } catch (error) {
+      console.error("Error triggering webhook:", error);
     }
   };
 
@@ -170,6 +168,7 @@ export default function ExcelUploader() {
               type="button"
               onClick={triggerFileInput}
               // className="px-4 py- bg-black text-white rounded"
+              className="text-lg font-normal"
             >
               Choose File
             </Button>
@@ -188,15 +187,15 @@ export default function ExcelUploader() {
           {fileName && !error && <p className="mb-4">Previewing {fileName}</p>}
 
           {excelData.length > 0 && (
-            <div className="h-3/4 overflow-x-auto">
-              <div className="max-h-[500px] overflow-y-auto">
+            <div className="h-3/4 overflow-x-auto border-2 rounded-md shadow-lg">
+              <div className="max-h-[500px] overflow-y-auto ">
                 <Table>
                   <TableHeader className="sticky top-0 bg-white z-10">
                     <TableRow>
                       {excelData[0].map((header, index) => (
                         <TableHead
                           key={index}
-                          className="px-4 py-2 border-b text-left font-medium"
+                          className="px-4 py-2 border-b text-left font-medium bg-slate-100"
                         >
                           {header}
                         </TableHead>
@@ -221,19 +220,23 @@ export default function ExcelUploader() {
               </div>
             </div>
           )}
-          <div className="flex items-center justify-center pt-2">
+          <div className="flex items-center justify-start pt-4">
             {excelData.length > 0 && !submitted && (
-              <Button onClick={handleSubmit} disabled={loading}>
-                {loading ? "Uploading..." : "Upload"}
+              <Button onClick={handleSubmit} disabled={loading} size="lg">
+                <p className="text-lg font-normal">
+                  {loading ? "Uploading..." : "Upload"}
+                </p>
               </Button>
             )}
           </div>
           {submitted && (
-            <div className="flex items-center justify-center pt-1">
+            <div className="flex items-center justify-start pt-1">
               {/* Button toggles checked state */}
               {!checked ? (
-                <Button onClick={handleToggle}>
-                  {checked ? "Stop Calls" : "Start Calls"}
+                <Button onClick={handleToggle} size="lg">
+                  <p className="text-lg ">
+                    {checked ? "Stop Calls" : "Start Calls"}
+                  </p>
                 </Button>
               ) : (
                 <>Calls in progress</>

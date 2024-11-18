@@ -10,7 +10,7 @@ const LogoutPage = () => {
     localStorage.setItem("isLogin", "false");
 
     // Navigate to the login page
-    navigate("/login");
+    navigate("/");
   }, [navigate]);
 
   return <div>Logging out...</div>;
