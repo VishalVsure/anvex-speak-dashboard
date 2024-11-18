@@ -16,7 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Play, Pause } from "lucide-react";
-import data from "@/assets/RecordsData";
+// import data from "@/assets/RecordsData";
 
 interface CallDetails {
   name: string;
@@ -28,35 +28,35 @@ interface CallDetails {
   overall_response: string;
 }
 
-interface DialogueEntry {
-  speaker: string;
-  text: string;
-}
+// interface DialogueEntry {
+//   speaker: string;
+//   text: string;
+// }
 
-function formatTranscript(transcript: string): DialogueEntry[] {
-  const lines = transcript.split("\n");
-  const dialogue: DialogueEntry[] = [];
-  let currentSpeaker = "";
-  let currentText = "";
+// function formatTranscript(transcript: string): DialogueEntry[] {
+//   const lines = transcript.split("\n");
+//   const dialogue: DialogueEntry[] = [];
+//   let currentSpeaker = "";
+//   let currentText = "";
 
-  for (const line of lines) {
-    if (line.trim() === "AI" || line.trim() === "User") {
-      if (currentSpeaker && currentText) {
-        dialogue.push({ speaker: currentSpeaker, text: currentText.trim() });
-      }
-      currentSpeaker = line.trim();
-      currentText = "";
-    } else {
-      currentText += " " + line.trim();
-    }
-  }
+//   for (const line of lines) {
+//     if (line.trim() === "AI" || line.trim() === "User") {
+//       if (currentSpeaker && currentText) {
+//         dialogue.push({ speaker: currentSpeaker, text: currentText.trim() });
+//       }
+//       currentSpeaker = line.trim();
+//       currentText = "";
+//     } else {
+//       currentText += " " + line.trim();
+//     }
+//   }
 
-  if (currentSpeaker && currentText) {
-    dialogue.push({ speaker: currentSpeaker, text: currentText.trim() });
-  }
+//   if (currentSpeaker && currentText) {
+//     dialogue.push({ speaker: currentSpeaker, text: currentText.trim() });
+//   }
 
-  return dialogue;
-}
+//   return dialogue;
+// }
 
 function AudioPlayer({ src, isOpen }: { src: string; isOpen: boolean }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -91,26 +91,26 @@ export default function Component({
   userData: CallDetails[];
 }) {
   const [selectedCall, setSelectedCall] = useState<CallDetails | null>(null);
-  const [transcript, setTranscript] = useState<string>("");
-  const [formattedTranscript, setFormattedTranscript] = useState<
-    DialogueEntry[]
-  >([]);
+  // const [transcript, setTranscript] = useState<string>("");
+  // const [formattedTranscript, setFormattedTranscript] = useState<
+  //   DialogueEntry[]
+  // >([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const fetchTranscript = async (url: string) => {
-    try {
-      const response = await fetch(url);
-      const text = await response.text();
-      setTranscript(text);
-      setFormattedTranscript(formatTranscript(text));
-      console.log(text);
-      console.log(transcript);
-    } catch (error) {
-      console.error("Error fetching transcript:", error);
-      setTranscript("Failed to load transcript");
-      setFormattedTranscript([]);
-    }
-  };
+  // const fetchTranscript = async (url: string) => {
+  //   try {
+  //     const response = await fetch(url);
+  //     const text = await response.text();
+  //     setTranscript(text);
+  //     setFormattedTranscript(formatTranscript(text));
+  //     console.log(text);
+  //     console.log(transcript);
+  //   } catch (error) {
+  //     console.error("Error fetching transcript:", error);
+  //     setTranscript("Failed to load transcript");
+  //     setFormattedTranscript([]);
+  //   }
+  // };
 
   // Function to format the transcript with styles
   const formatTranscript = (transcript: string) => {
