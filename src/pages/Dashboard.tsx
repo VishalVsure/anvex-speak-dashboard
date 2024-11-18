@@ -78,7 +78,7 @@ const Dashboard = () => {
         const updatedUserData = fetchedData.map((item) => {
           const matchingData = additionalData.find(
             (additionalItem: string[]) =>
-              additionalItem[0] === item.number &&
+              additionalItem[0] === item.number.split("+")[1] &&
               additionalItem[1] === "end-of-call-report"
           );
           console.log("MatchingData: ", matchingData);
