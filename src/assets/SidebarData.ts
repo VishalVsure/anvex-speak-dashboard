@@ -7,7 +7,7 @@ const sidebarData: SidebarData[] = [
   { title: "Home", slug: "instructions" },
   { title: "Upload List of calls", slug: "uploadFile" },
   { title: "Call Records", slug: "call-records" },
-  { title: "About Us", slug: "agent-creation" },
+  { title: "About Us", slug: "about-us" },
   // { title: "Knowledge Base", slug: "knowledge-base" },
   // { title: "Agent Voices", slug: "agent-voices" },
   // { title: "List of Interactions", slug: "interaction" },
