@@ -4,23 +4,16 @@ import { useNavigate } from "react-router-dom";
 const LogoutPage = () => {
   const navigate = useNavigate();
 
-  const logout = () => {
-    // Clear the 'email' key from localStorage
+  useEffect(() => {
+    // Perform logout actions
     localStorage.removeItem("email");
-
-    // Set 'isLogin' to false in localStorage
     localStorage.setItem("isLogin", "false");
 
-    // Optionally, redirect to login page
+    // Navigate to the login page
     navigate("/login");
-  };
+  }, [navigate]);
 
-  // Call the logout function as soon as the component is mounted
-  useEffect(() => {
-    logout();
-  }, []);
-
-  return <div>Logging out...</div>; // Display a message while logging out
+  return <div>Logging out...</div>;
 };
 
 export default LogoutPage;

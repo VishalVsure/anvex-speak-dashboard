@@ -11,6 +11,7 @@ import Settings from "@/pages/Settings";
 import { Route, Routes } from "react-router-dom";
 import HomeInstructions from "@/pages/HomeInstructions";
 import AboutUs from "@/pages/AboutUs";
+import LogoutPage from "@/pages/LogoutPage";
 
 const Router: React.FC = () => (
   <Routes>
@@ -26,6 +27,7 @@ const Router: React.FC = () => (
     <Route path="/agent-config" element={<AgentConfiguration />} />
     <Route path="/settings" element={<Settings />} />
     <Route path="/about-us" element={<AboutUs />} />
+    <Route path="/logout" element={<LogoutPage />} />
   </Routes>
 );
 

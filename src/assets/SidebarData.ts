@@ -16,10 +16,9 @@ export const sidebarData: SidebarData[] = [
   // { title: "Settings", slug: "settings" }
 ];
 
-
 export const sidebarFoot: SidebarData[] = [
   { title: "About Us", slug: "about-us" },
-  { title: "Logout", slug: "/logout" }
+  { title: "Logout", slug: "logout" },
 ];
 
 export default sidebarData;

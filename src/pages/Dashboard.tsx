@@ -19,7 +19,12 @@ interface CallDetails {
 
 const Dashboard = () => {
   const [userData, setUserData] = useState<CallDetails[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(false);
   // const [error, setError] = useState(null);
+
+  const handleRefresh = () => {
+    setRefresh(!refresh);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -125,11 +130,11 @@ const Dashboard = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [refresh]);
 
   return (
     <DashboardLayout>
-      <CallDetailsTable userData={userData} />
+      <CallDetailsTable userData={userData} refreshData={handleRefresh} />
       <Toaster position="bottom-center" />
     </DashboardLayout>
   );
