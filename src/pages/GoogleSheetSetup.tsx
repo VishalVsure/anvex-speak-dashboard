@@ -24,7 +24,7 @@ import { toast, Toaster } from "react-hot-toast";
 
 interface reqBody {
   range: string; // Specify the range (e.g., "Sheet1!A1:B1")
-  values: string[][];
+  values?: string[][];
 }
 
 export default function ExcelUploader() {
@@ -98,24 +98,42 @@ export default function ExcelUploader() {
 
   const handleSubmit = async () => {
     console.log(excelData);
-    const requestBody: reqBody = {
-      range: "Akila Final Call List!A2",
-      values: excelData.slice(1),
-    };
-    toast.loading("Uploading Users List...");
+
     try {
-      const response = await axios.put(
-        "https://anvex-akila-demo.onrender.com/api/sheets/update",
-        requestBody
+      //Delete Previously entered Request
+      const requestBody: reqBody = {
+        range: "Akila Final Call List!A2:Z",
+      };
+      toast.loading("Uploading Users List...");
+
+      const response = await axios.delete(
+        "https://anvex-akila-demo.onrender.com/api/sheets/delete",
+        { data: requestBody }
       );
-      console.log(response);
-      setSubmitted(true);
-      toast.dismiss();
-      toast.success(`Successfully uploaded ${excelData.length - 1} users.`);
+      if (response.status === 200) {
+        // Update Sheets with new records
+        const requestBody: reqBody = {
+          range: "Akila Final Call List!A2",
+          values: excelData.slice(1),
+        };
+        toast.loading("Uploading Users List...");
+        try {
+          const response = await axios.put(
+            "https://anvex-akila-demo.onrender.com/api/sheets/update",
+            requestBody
+          );
+          console.log(response);
+          setSubmitted(true);
+          toast.dismiss();
+          toast.success(`Successfully uploaded ${excelData.length - 1} users.`);
+        } catch (error) {
+          console.error("Error adding rows:", error);
+          toast.dismiss();
+          toast.error("Error adding Users.");
+        }
+      }
     } catch (error) {
-      console.error("Error adding rows:", error);
-      toast.dismiss();
-      toast.error("Error adding Users.");
+      console.error("Error deletings rows:", error);
     }
   };
   return (
