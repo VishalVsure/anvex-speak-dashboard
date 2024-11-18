@@ -8,13 +8,14 @@ export default function AnimatedInstructions() {
   const [currentStep, setCurrentStep] = useState<number[]>([]);
 
   const instructions = [
-    "Upload the list of Users to call in the specified format using Excel file in Upload List of calls tab.",
-    "You can view the sample Excel format for Users list by clicking on the download Sample document button.",
-    "Check the the list of users and confirm before uploading the file.",
-    "Once verified, upload the file using the Upload button.",
-    "Once File is uploaded, click on the Start Call button to start the calls.",
-    "You will see the Details of the calls in the Call Records tab as it gets updated.",
-    "You can also view the Call details by clicking on the View Details button.",
+    "Upload the User List in the specified format using the Excel file on the 'Upload List of Calls' tab.",
+    "View the sample format by clicking the Excel icon at the top right.",
+    "Ensure your phone number is entered in international format (e.g., '+91123456789, no spaces).",
+    "Review the user list preview and confirm its accuracy before uploading.",
+    "After verification, click the Upload button to upload the file.",
+    "Once the file is uploaded, click 'Start Call' to initiate calls.",
+    "Track call details in the 'Call Records' tab as they update.",
+    "You can also view call details by clicking the 'View Details' button.",
   ];
 
   useEffect(() => {
