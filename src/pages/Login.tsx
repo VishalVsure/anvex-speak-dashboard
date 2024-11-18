@@ -8,10 +8,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { set_user } from "@/state/user/UserSlice";
+// import { set_user } from "@/state/user/UserSlice";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import bcrypt from "bcryptjs";
+import axios from "axios";
 // user_id (primary key)
 // username
 // password_hash
@@ -21,19 +23,55 @@ import { useNavigate } from "react-router-dom";
 // updated_at
 
 export default function LoginPage() {
-  const Navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [mail, setMail] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
-      const user = { username: "VCS", email: mail, token: "abcdg" };
-      dispatch(set_user(user));
-      Navigate("/instructions");
-    } catch (err) {
-      console.log("ERROR: ", err);
+      const range = "Auth!A2:Z"; // Adjust the range to include all necessary data
+      const res = await axios.get("http://localhost:3000/api/sheets/read", {
+        params: { email, range },
+      });
+
+      console.log("Response Data:", res.data); // Log the response to see its structure
+
+      if (res.status === 200 && res.data) {
+        const users = res.data.data; // Access the data array from the response
+
+        // Filter users by email
+        const filteredUsers = users.filter((user: any) => user[0] === email); // user[0] is the email
+
+        if (filteredUsers.length > 0) {
+          const user = filteredUsers[0]; // Assuming we expect one match
+          console.log(password);
+          console.log(user[1]);
+          // Compare password (assuming user[1] contains the hashed password)
+          const isMatch = await bcrypt.compare(password, user[1]); // user[1] is the password
+
+          if (isMatch) {
+            console.log("Login successful");
+            localStorage.setItem("email", user[0]);
+            localStorage.setItem("isLogin", "true");
+            navigate("/instructions");
+          } else {
+            console.log("Invalid password");
+            alert("Invalid password");
+          }
+        } else {
+          console.log("User not found");
+          alert("User not found");
+        }
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("Error during login");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -47,7 +85,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action="#" onSubmit={handleSubmit}>
+          <form action="#" onSubmit={handleLogin}>
             <div className="grid gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -55,8 +93,8 @@ export default function LoginPage() {
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  value={mail}
-                  onChange={(e) => setMail(e.target.value)} //
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)} //
                   required
                 />
               </div>
@@ -64,7 +102,13 @@ export default function LoginPage() {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
               <Button
                 type="submit"
@@ -76,7 +120,8 @@ export default function LoginPage() {
               <Button
                 variant="outline"
                 className="w-full"
-                onClick={() => Navigate("/dashboard")}
+                onClick={() => navigate("/dashboard")}
+                disabled={isLoading}
               >
                 Login with Google
               </Button>
@@ -84,7 +129,7 @@ export default function LoginPage() {
           </form>
           <div
             className="mt-4 text-center text-sm"
-            onClick={() => Navigate("/signup")}
+            onClick={() => navigate("/signup")}
           >
             Don&apos;t have an account?{""}
           </div>

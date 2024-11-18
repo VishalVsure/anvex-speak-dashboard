@@ -6,11 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import bcrypt from "bcryptjs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import signupSchema from "@/schema/SignupSchema";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // user_id (primary key)
 // username
@@ -24,20 +26,38 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
+  // async function hashPassword(password) {
+  //   const saltRounds = 10;
+  //   return await bcrypt.hash(password, saltRounds);
+  // }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("submit");
-    const user = {
-      username: username,
-      password: password,
-      email: email,
-    };
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      // const user = {
+      //   email: email,
+      //   password: hashedPassword,
+      // };
+      const range = "Auth!A2";
+      const row = [email, hashedPassword];
+      const values = [row];
+      const res = await axios.post("http://localhost:3000/api/sheets/create", {
+        range,
+        values,
+      });
 
-    console.log(signupSchema.safeParse(user));
+      if (res.status == 200) {
+        console.log("user added");
+      }
+    } catch (error) {
+      console.log("error ", error);
+    }
+    console.log(signupSchema.safeParse({ email, password }));
 
-    Navigate("/dashboard");
+    Navigate("/login");
   };
 
   const Navigate = useNavigate();
@@ -62,7 +82,7 @@ export default function SignUpPage() {
                   required
                 />
               </div>
-              <div className="grid gap-2">
+              {/* <div className="grid gap-2">
                 <Label htmlFor="email">Username</Label>
                 <Input
                   id="username"
@@ -72,7 +92,7 @@ export default function SignUpPage() {
                   onChange={(e) => setUsername(e.target.value)}
                   required
                 />
-              </div>
+              </div> */}
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
