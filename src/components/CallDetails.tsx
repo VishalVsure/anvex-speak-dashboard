@@ -22,10 +22,13 @@ interface CallDetails {
   name: string;
   number: string;
   call_time: string;
-  duration: string;
+  call_duration: string;
   transcript: string;
   recording: string;
   overall_response: string;
+  call_cost: string;
+  call_sentiment: string;
+  call_type: string;
 }
 
 // interface DialogueEntry {
@@ -147,6 +150,8 @@ export default function Component({
             <TableHead>Number</TableHead>
             <TableHead>Call Time</TableHead>
             <TableHead>Duration</TableHead>
+            <TableHead>Call Cost</TableHead>
+            <TableHead>Call Sentiments</TableHead>
             {/* <TableHead>Response</TableHead> */}
             <TableHead>Details</TableHead>
           </TableRow>
@@ -157,7 +162,9 @@ export default function Component({
               <TableCell>{call.name}</TableCell>
               <TableCell>{call.number}</TableCell>
               <TableCell>{call.call_time}</TableCell>
-              <TableCell>{call.duration}</TableCell>
+              <TableCell>{call.call_duration}</TableCell>
+              <TableCell>$ {call.call_cost}</TableCell>
+              <TableCell>{call.call_sentiment}</TableCell>
               {/* <TableCell>
                 <span
                   className={`font-semibold ${
@@ -202,7 +209,15 @@ export default function Component({
                           <strong>Call Time:</strong> {selectedCall.call_time}
                         </div>
                         <div>
-                          <strong>Duration:</strong> {selectedCall.duration}
+                          <strong>Duration:</strong>{" "}
+                          {selectedCall.call_duration}
+                        </div>
+                        <div>
+                          <strong>Cost:</strong> {selectedCall.call_cost}
+                        </div>
+                        <div>
+                          <strong>Sentiment:</strong>{" "}
+                          {selectedCall.call_sentiment}
                         </div>
                         {/* <div>
                           <strong>Response:</strong>{" "}
@@ -210,14 +225,18 @@ export default function Component({
                         </div> */}
                         <div className=""></div>
                         <div className="col-span-3">
-                          <strong>Transcript: </strong>
-                          <AudioPlayer
-                            src={selectedCall.recording}
-                            isOpen={isDialogOpen}
-                          />
+                          <div className="col-span-9 pb-3">
+                            <strong>Recording: </strong>
+                            <AudioPlayer
+                              src={selectedCall.recording}
+                              isOpen={isDialogOpen}
+                            />
+                          </div>
+
                           {/* <div className="max-h-80 overflow-y-auto mt-2 p-2 border rounded"> */}
                           {/* <Table>
                               <TableBody> */}
+                          <strong>Transcript: </strong>
                           <div
                             className="transcript-container overflow-y-auto max-h-96 border rounded-md p-4 mt-[15px]
 "
