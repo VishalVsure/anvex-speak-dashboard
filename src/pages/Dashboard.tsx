@@ -8,15 +8,23 @@ interface CallDetails {
   name: string;
   number: string;
   call_time: string;
-  duration: string;
+  call_duration: string;
   transcript: string;
   recording: string;
   overall_response: string;
+  call_cost: string;
+  call_sentiment: string;
+  call_type: string;
 }
 
 const Dashboard = () => {
   const [userData, setUserData] = useState<CallDetails[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(false);
   // const [error, setError] = useState(null);
+
+  const handleRefresh = () => {
+    setRefresh(!refresh);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -26,7 +34,7 @@ const Dashboard = () => {
           "https://anvex-akila-demo.onrender.com/api/sheets/read",
           {
             params: {
-              range: "Akila Final Call List", // Ensure the parameter name matches the expected format
+              range: "Akila Call Log", // Ensure the parameter name matches the expected format
             },
           }
         );
@@ -36,10 +44,26 @@ const Dashboard = () => {
         const fetchedData = response.data.data
           .slice(1) // Skip header row
           .map((item: string[]) => {
-            if (item && item.length > 0) {
+            if (item && item.length > 0 && item[1] === "end-of-call-report") {
+              // Convert to a local date object
+              const localDate = new Date(item[6]);
+              // Format it to the client's local time zone
+              const formattedDate = localDate.toLocaleString();
+
+              const decimalTime = parseFloat(item[7]);
+              const minutes = Math.floor(decimalTime); // Get the whole hours
+              const seconds = Math.round((decimalTime - minutes) * 60);
+
               return {
-                name: item[2] + " " + item[4], // Combine first and last name
-                number: item[5],
+                number: item[0],
+                call_type: item[1],
+                recording: item[2],
+                transcript: item[3],
+                overall_response: item[4],
+                call_time: formattedDate,
+                call_duration: `${minutes}min ${seconds}sec`,
+                call_cost: item[8],
+                call_sentiment: item[10],
               };
             }
             return null; // If data is not in the expected format
@@ -67,7 +91,7 @@ const Dashboard = () => {
           "https://anvex-akila-demo.onrender.com/api/sheets/read",
           {
             params: {
-              range: "Akila Call Log", // Ensure the parameter name matches the expected format
+              range: "Akila Final Call List", // Ensure the parameter name matches the expected format
             },
           }
         );
@@ -78,8 +102,8 @@ const Dashboard = () => {
         const updatedUserData = fetchedData.map((item) => {
           const matchingData = additionalData.find(
             (additionalItem: string[]) =>
-              additionalItem[0] === item.number.split("+")[1] &&
-              additionalItem[1] === "end-of-call-report"
+              additionalItem[5].split("+")[1] === item.number &&
+              item.call_type === "end-of-call-report"
           );
           console.log("MatchingData: ", matchingData);
 
@@ -87,9 +111,8 @@ const Dashboard = () => {
           if (matchingData) {
             return {
               ...item,
-              transcript: matchingData[3] || null,
-              recording: matchingData[2] || null,
-              overall_response: matchingData[4] || null,
+              name: matchingData[2] + " " + matchingData[4], // Combine first and last name
+              number: matchingData[5],
             };
           }
           return item; // If no match, return the original item
@@ -107,11 +130,11 @@ const Dashboard = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [refresh]);
 
   return (
     <DashboardLayout>
-      <CallDetailsTable userData={userData} />
+      <CallDetailsTable userData={userData} refreshData={handleRefresh} />
       <Toaster position="bottom-center" />
     </DashboardLayout>
   );
