@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
 import axios from "axios";
+import toast from "react-hot-toast";
 // user_id (primary key)
 // username
 // password_hash
@@ -31,7 +32,7 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     // setIsLoading(true);
-
+    const loader = toast.loading("Signing you in...");
     try {
       const range = "Auth!A2:Z"; // Adjust the range to include all necessary data
       const res = await axios.get(
@@ -41,18 +42,17 @@ export default function LoginPage() {
         }
       );
 
-      console.log("Response Data:", res.data); // Log the response to see its structure
+      // console.log("Response Data:", res.data); // Log the response to see its structure
 
       if (res.status === 200 && res.data) {
         const users = res.data.data; // Access the data array from the response
-
         // Filter users by email
         const filteredUsers = users.filter((user: any) => user[0] === email); // user[0] is the email
 
         if (filteredUsers.length > 0) {
           const user = filteredUsers[0]; // Assuming we expect one match
-          console.log(password);
-          console.log(user[1]);
+          // console.log(password);
+          // console.log(user[1]);
           // Compare password (assuming user[1] contains the hashed password)
           const isMatch = await bcrypt.compare(password, user[1]); // user[1] is the password
 
@@ -60,22 +60,26 @@ export default function LoginPage() {
             console.log("Login successful");
             localStorage.setItem("email", user[0]);
             localStorage.setItem("isLogin", "true");
+            toast.remove(loader);
+            toast.success("Signed in");
             navigate("/instructions");
           } else {
             console.log("Invalid password");
-            alert("Invalid password");
+            toast.remove(loader);
+            toast.error("Please check your password");
+            // alert("Invalid password");
           }
         } else {
           console.log("User not found");
-          alert("User not found");
+          toast.remove(loader);
+          toast.error("Sorry! You do not have access to the dashboard");
+
+          // alert("User not found");
         }
       }
     } catch (error) {
       console.error("Error during login:", error);
       alert("Error during login");
-    } finally {
-      // setIsLoading(false);
-      console.log("you shall not pass");
     }
   };
 
