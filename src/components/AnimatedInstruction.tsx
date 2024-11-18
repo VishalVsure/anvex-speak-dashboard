@@ -34,15 +34,15 @@ export default function AnimatedInstructions() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center h-full bg-gray-100 p-4">
-      <div className="w-full h-full bg-white rounded-xl shadow-md overflow-hidden">
+    <div className="w-full flex flex-col items-center justify-center h-full bg-gray-100">
+      <div className="w-full h-full bg-white overflow-hidden">
         <div className="p-6">
-          <div className="flex justify-between">
-            <h2 className="text-2xl font-bold mb-4 text-center">
+          <div className="flex items-center justify-between pb-4">
+            <p className="text-2xl font-bold mb-4 text-center">
               Usage Instructions
-            </h2>
+            </p>
             <div>
-              <DownloadExcel></DownloadExcel>
+              <DownloadExcel />
             </div>
           </div>
           <div className="space-y-4">

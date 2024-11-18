@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -17,7 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
+// import { Switch } from "@/components/ui/switch";
 import DashboardLayout from "@/layout/DashboardLayout";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
@@ -34,16 +34,17 @@ export default function ExcelUploader() {
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [checked, setChecked] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const savedToggleState = localStorage.getItem("toggle");
-    if (savedToggleState !== null) {
-      setChecked(savedToggleState === "true");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedToggleState = localStorage.getItem("toggle");
+  //   if (savedToggleState !== null) {
+  //     setChecked(savedToggleState === "true");
+  //   }
+  // }, []);
 
-  const handleToggle = async (checked: boolean): Promise<void> => {
-    setChecked(checked);
+  const handleToggle = async (): Promise<void> => {
+    setChecked(true);
     if (checked) {
       try {
         const response = await axios.get(
@@ -51,7 +52,7 @@ export default function ExcelUploader() {
         );
 
         if (response.status === 200) {
-          localStorage.setItem("toggle", checked.toString());
+          // localStorage.setItem("toggle", checked.toString());
           console.log("Webhook triggered successfully");
         } else {
           console.error("Failed to trigger webhook");
@@ -94,6 +95,19 @@ export default function ExcelUploader() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files) {
+  //     const file = e.target.files[0];
+  //     console.log("Selected file:", file);
+  //     // Add your logic to handle the file (e.g., upload it)
+  //   }
+  // };
+
+  // Trigger the hidden file input when the custom button is clicked
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
   };
 
   const handleSubmit = async () => {
@@ -142,32 +156,31 @@ export default function ExcelUploader() {
         {/* <Card className="w-full"> */}
         <CardHeader className="space-y-0 p-0 px-6">
           <CardTitle className="flex items-center justify-between text-2xl pt-1 pb-2">
-            <p>Excel File Uploader</p>
-            {submitted && (
-              <div className="flex items-center">
-                <p className="font-normal px-2 text-md">Start Calls</p>
-                <Switch checked={checked} onCheckedChange={handleToggle} />
-              </div>
-            )}
+            <p>File Uploader</p>
+
             {/* <Switch /> */}
           </CardTitle>
           <CardDescription className="pb-2">
-            Upload an Excel file to parse its contents
+            Select a excel file to make the calls
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center h-full space-x-4 mb-4">
-            <Input
+            <Button
+              type="button"
+              onClick={triggerFileInput}
+              // className="px-4 py- bg-black text-white rounded"
+            >
+              Choose File
+            </Button>
+
+            <input
               type="file"
               accept=".xlsx, .xls"
+              ref={fileInputRef}
               onChange={handleFileUpload}
-              className="flex-grow"
+              className="hidden"
             />
-            {excelData.length > 0 && !submitted && (
-              <Button onClick={handleSubmit} disabled={loading}>
-                {loading ? "Uploading..." : "Upload"}
-              </Button>
-            )}
           </div>
 
           {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -175,25 +188,56 @@ export default function ExcelUploader() {
           {fileName && !error && <p className="mb-4">Previewing {fileName}</p>}
 
           {excelData.length > 0 && (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    {excelData[0].map((header, index) => (
-                      <TableHead key={index}>{header}</TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {excelData.slice(1).map((row, rowIndex) => (
-                    <TableRow key={rowIndex}>
-                      {row.map((cell, cellIndex) => (
-                        <TableCell key={cellIndex}>{cell}</TableCell>
+            <div className="h-3/4 overflow-x-auto">
+              <div className="max-h-[500px] overflow-y-auto">
+                <Table>
+                  <TableHeader className="sticky top-0 bg-white z-10">
+                    <TableRow>
+                      {excelData[0].map((header, index) => (
+                        <TableHead
+                          key={index}
+                          className="px-4 py-2 border-b text-left font-medium"
+                        >
+                          {header}
+                        </TableHead>
                       ))}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {excelData.slice(1).map((row, rowIndex) => (
+                      <TableRow key={rowIndex} className="hover:bg-gray-100">
+                        {row.map((cell, cellIndex) => (
+                          <TableCell
+                            key={cellIndex}
+                            className="px-4 py-2 border-b"
+                          >
+                            {cell}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+          <div className="flex items-center justify-center pt-2">
+            {excelData.length > 0 && !submitted && (
+              <Button onClick={handleSubmit} disabled={loading}>
+                {loading ? "Uploading..." : "Upload"}
+              </Button>
+            )}
+          </div>
+          {submitted && (
+            <div className="flex items-center justify-center pt-1">
+              {/* Button toggles checked state */}
+              {!checked ? (
+                <Button onClick={handleToggle}>
+                  {checked ? "Stop Calls" : "Start Calls"}
+                </Button>
+              ) : (
+                <>Calls in progress</>
+              )}
             </div>
           )}
         </CardContent>
