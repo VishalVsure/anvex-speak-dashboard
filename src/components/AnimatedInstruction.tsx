@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import DownloadExcel from "./ExcelSampleDocument";
 
 export default function AnimatedInstructions() {
   const [currentStep, setCurrentStep] = useState<number[]>([]);
@@ -35,9 +36,14 @@ export default function AnimatedInstructions() {
     <div className="w-full flex flex-col items-center justify-center h-full bg-gray-100 p-4">
       <div className="w-full h-full bg-white rounded-xl shadow-md overflow-hidden">
         <div className="p-6">
-          <h2 className="text-2xl font-bold mb-4 text-center">
-            Usage Instructions
-          </h2>
+          <div className="flex justify-between">
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              Usage Instructions
+            </h2>
+            <div>
+              <DownloadExcel></DownloadExcel>
+            </div>
+          </div>
           <div className="space-y-4">
             <AnimatePresence>
               {currentStep.map((stepIndex) => (

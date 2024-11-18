@@ -242,7 +242,7 @@ export default function Component({
                           {/* </div> */}
                           <div className="p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
                             <h2 className="text-xl font-bold mb-4 text-gray-800">
-                              Conference Announcement
+                              Overall Summary
                             </h2>
                             <p className="text-gray-700 leading-relaxed text-justify">
                               {selectedCall.overall_response}
