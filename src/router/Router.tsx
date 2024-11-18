@@ -12,22 +12,25 @@ import { Route, Routes } from "react-router-dom";
 import HomeInstructions from "@/pages/HomeInstructions";
 import AboutUs from "@/pages/AboutUs";
 import LogoutPage from "@/pages/LogoutPage";
+import PrivateRoute from "./PrivateRoute";
 
 const Router: React.FC = () => (
   <Routes>
     <Route path="/" element={<App />} />
-    <Route path="/login" element={<LoginPage />} />
-    <Route path="/signup" element={<SignupPage />} />
-    <Route path="/call-records" element={<Dashboard />} />
-    <Route path="/instructions" element={<HomeInstructions />} />
-    <Route path="/knowledge-base" element={<KnowledgeBaseUpload />} />
-    <Route path="/agent-voices" element={<VoiceSelection />} />
-    <Route path="/uploadFile" element={<GoogleSheetSetup />} />
-    <Route path="/agent-creation" element={<AgentCreation />} />
-    <Route path="/agent-config" element={<AgentConfiguration />} />
-    <Route path="/settings" element={<Settings />} />
-    <Route path="/about-us" element={<AboutUs />} />
-    <Route path="/logout" element={<LogoutPage />} />
+    <Route element={<PrivateRoute />}>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/call-records" element={<Dashboard />} />
+      <Route path="/instructions" element={<HomeInstructions />} />
+      <Route path="/knowledge-base" element={<KnowledgeBaseUpload />} />
+      <Route path="/agent-voices" element={<VoiceSelection />} />
+      <Route path="/uploadFile" element={<GoogleSheetSetup />} />
+      <Route path="/agent-creation" element={<AgentCreation />} />
+      <Route path="/agent-config" element={<AgentConfiguration />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/about-us" element={<AboutUs />} />
+      <Route path="/logout" element={<LogoutPage />} />
+    </Route>
   </Routes>
 );
 

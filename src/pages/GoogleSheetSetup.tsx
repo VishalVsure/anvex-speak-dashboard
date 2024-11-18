@@ -45,21 +45,19 @@ export default function ExcelUploader() {
 
   const handleToggle = async (): Promise<void> => {
     setChecked(true);
-    if (checked) {
-      try {
-        const response = await axios.get(
-          "https://hook.eu2.make.com/dvzwgyc8gjl32gtnrt7isxtq2wqnpij0"
-        );
+    try {
+      const response = await axios.get(
+        "https://hook.eu2.make.com/dvzwgyc8gjl32gtnrt7isxtq2wqnpij0"
+      );
 
-        if (response.status === 200) {
-          // localStorage.setItem("toggle", checked.toString());
-          console.log("Webhook triggered successfully");
-        } else {
-          console.error("Failed to trigger webhook");
-        }
-      } catch (error) {
-        console.error("Error triggering webhook:", error);
+      if (response.status === 200) {
+        // localStorage.setItem("toggle", checked.toString());
+        console.log("Webhook triggered successfully");
+      } else {
+        console.error("Failed to trigger webhook");
       }
+    } catch (error) {
+      console.error("Error triggering webhook:", error);
     }
   };
 

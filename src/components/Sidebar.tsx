@@ -40,10 +40,10 @@ const Sidebar = () => {
             {data.title}
           </p>
         ))}
-        <p className="px-4 text-sm  font-mono bg-white text-gray-600 text-center">
+        <p className="px-4 text-md  font-mono bg-white text-gray-600 text-center">
           <p className="flex px-4 items-center">
             <span className="pr-2">A product of</span>
-            <img src="vcs-logo-red.jpg" alt="vcs logo" className="w-8" />
+            <img src="vcs-logo.png" alt="vcs logo" className="w-12" />
           </p>
         </p>
       </div>

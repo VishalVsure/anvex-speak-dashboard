@@ -25,12 +25,12 @@ import axios from "axios";
 export default function LoginPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
 
     try {
       const range = "Auth!A2:Z"; // Adjust the range to include all necessary data
@@ -74,12 +74,13 @@ export default function LoginPage() {
       console.error("Error during login:", error);
       alert("Error during login");
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
+      console.log("you shall not pass");
     }
   };
 
   return (
-    <div className="flex items-center align-middle py-36">
+    <div className="flex items-center align-middle">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
@@ -120,22 +121,8 @@ export default function LoginPage() {
               >
                 Login
               </Button>
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => navigate("/dashboard")}
-                disabled={isLoading}
-              >
-                Login with Google
-              </Button>
             </div>
           </form>
-          <div
-            className="mt-4 text-center text-sm"
-            onClick={() => navigate("/signup")}
-          >
-            Don&apos;t have an account?{""}
-          </div>
         </CardContent>
       </Card>
     </div>
