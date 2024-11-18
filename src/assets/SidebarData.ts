@@ -5,7 +5,7 @@ interface SidebarData {
 
 export const sidebarData: SidebarData[] = [
   { title: "Home", slug: "instructions" },
-  { title: "Upload List for Calling", slug: "uploadFile" },
+  { title: "Upload", slug: "uploadFile" },
   { title: "Call Logs", slug: "call-records" },
   // { title: "About Us", slug: "about-us" },
   // { title: "Knowledge Base", slug: "knowledge-base" },
