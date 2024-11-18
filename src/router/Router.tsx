@@ -4,7 +4,6 @@ import AgentCreation from "@/pages/AgentCreation";
 import Dashboard from "@/pages/Dashboard";
 import GoogleSheetSetup from "@/pages/GoogleSheetSetup";
 import KnowledgeBaseUpload from "@/pages/KnowledgeBase";
-import LoginPage from "@/pages/Login";
 import SignupPage from "@/pages/Signup";
 import VoiceSelection from "@/pages/VoiceSelect";
 import Settings from "@/pages/Settings";
@@ -18,8 +17,8 @@ const Router: React.FC = () => (
   <Routes>
     <Route path="/" element={<App />} />
     <Route element={<PrivateRoute />}>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
+      {/* <Route path="/login" element={<LoginPage />} /> */}
+      <Route path="/sova" element={<SignupPage />} />
       <Route path="/call-records" element={<Dashboard />} />
       <Route path="/instructions" element={<HomeInstructions />} />
       <Route path="/knowledge-base" element={<KnowledgeBaseUpload />} />

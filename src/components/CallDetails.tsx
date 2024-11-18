@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Play, Pause } from "lucide-react";
+// import { Play, Pause } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 // import data from "@/assets/RecordsData";
@@ -63,32 +63,32 @@ interface CallDetails {
 //   return dialogue;
 // }
 
-function AudioPlayer({ src, isOpen }: { src: string; isOpen: boolean }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audio] = useState(new Audio(src));
+// function AudioPlayer({ src, isOpen }: { src: string; isOpen: boolean }) {
+//   const [isPlaying, setIsPlaying] = useState(false);
+//   const [audio] = useState(new Audio(src));
 
-  useEffect(() => {
-    if (!isOpen) {
-      audio.pause();
-      setIsPlaying(false);
-    }
-  }, [isOpen, audio]);
+//   useEffect(() => {
+//     if (!isOpen) {
+//       audio.pause();
+//       setIsPlaying(false);
+//     }
+//   }, [isOpen, audio]);
 
-  const togglePlayPause = () => {
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
+//   const togglePlayPause = () => {
+//     if (isPlaying) {
+//       audio.pause();
+//     } else {
+//       audio.play();
+//     }
+//     setIsPlaying(!isPlaying);
+//   };
 
-  return (
-    <Button onClick={togglePlayPause} variant="outline" size="icon">
-      {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-    </Button>
-  );
-}
+//   return (
+//     <Button onClick={togglePlayPause} variant="outline" size="icon">
+//       {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+//     </Button>
+//   );
+// }
 
 export default function Component({
   userData = [],
@@ -242,7 +242,7 @@ export default function Component({
                           {selectedCall.call_duration}
                         </div>
                         <div>
-                          <strong>Cost:</strong> {selectedCall.call_cost}
+                          <strong>Cost:</strong> ${selectedCall.call_cost}
                         </div>
                         <div>
                           <strong>Sentiment:</strong>{" "}
@@ -252,13 +252,25 @@ export default function Component({
                           <strong>Response:</strong>{" "}
                           {selectedCall.overall_response}
                         </div> */}
-                        <div className=""></div>
                         <div className="col-span-3">
-                          <div className="col-span-9 pb-3">
+                          <h2 className="text-lg font-bold mb-2 text-gray-800">
+                            Overall Summary
+                          </h2>
+                          <p className="text-gray-700 leading-relaxed text-justify pb-2">
+                            {selectedCall.overall_response}
+                          </p>
+                        </div>
+                        <div className="col-span-3">
+                          <div className=" flex items-center col-span-9 pb-3">
                             <strong>Recording: </strong>
-                            <AudioPlayer
+                            {/* <AudioPlayer
                               src={selectedCall.recording}
                               isOpen={isDialogOpen}
+                            /> */}
+                            <audio
+                              src={selectedCall.recording}
+                              controls
+                              className="w-full pl-2"
                             />
                           </div>
 
@@ -288,14 +300,6 @@ export default function Component({
                           {/* </TableBody>
                             </Table> */}
                           {/* </div> */}
-                          <div className="p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
-                            <h2 className="text-xl font-bold mb-4 text-gray-800">
-                              Overall Summary
-                            </h2>
-                            <p className="text-gray-700 leading-relaxed text-justify">
-                              {selectedCall.overall_response}
-                            </p>
-                          </div>
                         </div>
                       </div>
                     )}

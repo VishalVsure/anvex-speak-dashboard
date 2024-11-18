@@ -61,7 +61,7 @@ const Dashboard = () => {
                 transcript: item[3],
                 overall_response: item[4],
                 call_time: formattedDate,
-                call_duration: `${minutes}min ${seconds}sec`,
+                call_duration: `${minutes} min ${seconds} sec`,
                 call_cost: item[8],
                 call_sentiment: item[10],
               };
