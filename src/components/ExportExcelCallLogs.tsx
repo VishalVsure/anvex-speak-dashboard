@@ -1,6 +1,5 @@
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import * as XLSX from "xlsx";
 
 interface CallDetails {
