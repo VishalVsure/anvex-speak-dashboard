@@ -18,6 +18,7 @@ import {
 // import { Play, Pause } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import ExportToExcel from "./ExportExcelCallLogs";
 // import data from "@/assets/RecordsData";
 
 interface CallDetails {
@@ -164,13 +165,16 @@ export default function Component({
     <div className="container mx-auto">
       <div className="flex justify-between">
         <p className="text-3xl font-bold pb-6">Call Logs (Akila)</p>
-        <button
-          onClick={refreshData}
-          className={`text-2xl cursor-pointer pb-6`}
-          title="Refresh Data"
-        >
-          <FontAwesomeIcon icon={faSyncAlt} />
-        </button>
+        <div className="flex items-center space-x-4">
+          <ExportToExcel userData={userData}></ExportToExcel>
+          <button
+            onClick={refreshData}
+            className={`text-2xl cursor-pointer`}
+            title="Refresh Data"
+          >
+            <FontAwesomeIcon icon={faSyncAlt} />
+          </button>
+        </div>
       </div>
       <Table>
         <TableHeader>
