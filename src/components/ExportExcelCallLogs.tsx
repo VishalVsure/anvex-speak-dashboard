@@ -26,10 +26,10 @@ export default function ExportToExcel({
 
     // Create a new workbook and append the worksheet
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Call Details");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Call Logs");
 
     // Export the workbook to a file
-    XLSX.writeFile(workbook, "CallDetails.xlsx");
+    XLSX.writeFile(workbook, "CallLogs.xlsx");
   };
 
   return (
