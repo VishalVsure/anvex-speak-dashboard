@@ -191,7 +191,18 @@ export default function Component({
         </TableHeader>
         <TableBody>
           {userData.map((call, index) => (
-            <TableRow key={index}>
+            <TableRow
+              key={index}
+              className={`${
+                call.call_sentiment?.toLowerCase() === "poor"
+                  ? "bg-red-100"
+                  : call.call_sentiment?.toLowerCase() === "fair"
+                  ? "bg-green-100"
+                  : call.call_sentiment?.toLowerCase() === "good"
+                  ? "bg-green-200"
+                  : ""
+              }`}
+            >
               <TableCell>{call.name}</TableCell>
               <TableCell>{call.number}</TableCell>
               <TableCell>{call.call_time}</TableCell>
