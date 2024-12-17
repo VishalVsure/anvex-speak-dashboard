@@ -3,19 +3,27 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 interface UserState {
     username: string,
     email: string,
-    // role: string,
+    phone: string,
+    role: number,
+    permissions: string[],
     token: string,
 }
 
 interface UserPayload {
-    username: string | "vcs";
+    username: string;
     email: string;
-    token: string | "abcd";
+    phone: string;
+    role: number;
+    permissions: string[];
+    token: string;
 }
 
 const initialState: UserState = {
     username: '',
     email: '',
+    role: 99,
+    phone: '',
+    permissions: [],
     token: ''
 }
 
@@ -27,11 +35,17 @@ const UserSlice = createSlice({
             state.username = action.payload.username;
             state.email = action.payload.email;
             state.token = action.payload.token;
+            state.role = action.payload.role;
+            state.phone = action.payload.phone;
+            state.permissions = action.payload.permissions;
         },
         log_out: (state) => {
             state.username = '';
             state.email = '';
             state.token = '';
+            state.role = 99;
+            state.phone = '';
+            state.permissions = []
         }
     }
 })

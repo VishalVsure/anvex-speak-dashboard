@@ -1,15 +1,14 @@
+import { log_out } from "@/state/user/UserSlice";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const LogoutPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Perform logout actions
-    localStorage.removeItem("email");
-    localStorage.setItem("isLogin", "false");
-
-    // Navigate to the login page
+    dispatch(log_out());
     navigate("/");
   }, [navigate]);
 

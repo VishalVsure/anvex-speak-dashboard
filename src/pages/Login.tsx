@@ -8,74 +8,54 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { set_user } from "@/state/user/UserSlice";
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { set_user } from "@/state/user/UserSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import bcrypt from "bcryptjs";
 import axios from "axios";
 import toast from "react-hot-toast";
-// user_id (primary key)
-// username
-// password_hash
-// email
-// role (e.g., 'admin', 'user', 'operator')
-// created_at
-// updated_at
+
+interface IUserData {
+  username: string;
+  email: string;
+  phone: string;
+  role: number;
+  token: string;
+  permissions: string[];
+}
 
 export default function LoginPage() {
-  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   // const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // setIsLoading(true);
     const loader = toast.loading("Signing you in...");
     try {
-      const range = "Auth!A2:Z"; // Adjust the range to include all necessary data
-      const res = await axios.get(
-        "https://anvex-akila-demo.onrender.com/api/sheets/read",
-        {
-          params: { email, range },
-        }
+      const body = { username, password };
+      const res = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        body
       );
 
-      // console.log("Response Data:", res.data); // Log the response to see its structure
-
       if (res.status === 200 && res.data) {
-        const users = res.data.data; // Access the data array from the response
-        // Filter users by email
-        const filteredUsers = users.filter((user: any) => user[0] === email); // user[0] is the email
-
-        if (filteredUsers.length > 0) {
-          const user = filteredUsers[0]; // Assuming we expect one match
-          // console.log(password);
-          // console.log(user[1]);
-          // Compare password (assuming user[1] contains the hashed password)
-          const isMatch = await bcrypt.compare(password, user[1]); // user[1] is the password
-
-          if (isMatch) {
-            console.log("Login successful");
-            localStorage.setItem("email", user[0]);
-            localStorage.setItem("isLogin", "true");
-            toast.remove(loader);
-            toast.success("Signed in");
-            navigate("/instructions");
-          } else {
-            console.log("Invalid password");
-            toast.remove(loader);
-            toast.error("Please check your password");
-            // alert("Invalid password");
-          }
-        } else {
-          console.log("User not found");
-          toast.remove(loader);
-          toast.error("Sorry! You do not have access to the dashboard");
-
-          // alert("User not found");
-        }
+        console.log(res);
+        const userData: IUserData = {
+          username: res.data.username,
+          email: res.data.email,
+          phone: res.data.phone,
+          role: res.data.role,
+          token: res.data.token,
+          permissions: res.data.permission,
+        };
+        console.log(userData);
+        navigate("/call-records");
+        dispatch(set_user(userData));
+        toast.dismiss(loader);
+        toast.success("signed in");
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -89,20 +69,20 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your username below to login to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form action="#" onSubmit={handleLogin}>
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)} //
+                  id="username"
+                  type="username"
+                  placeholder="johndoe"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)} //
                   required
                 />
               </div>
@@ -118,11 +98,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                // onClick={(e) => handleSubmit(e)}
-              >
+              <Button type="submit" className="w-full">
                 Login
               </Button>
             </div>
@@ -132,11 +108,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-// import React from "react";
-
-// const LoginPage = () => {
-//   return <div>LoginPage</div>;
-// };
-
-// export default LoginPage;
