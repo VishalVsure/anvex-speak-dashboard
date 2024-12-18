@@ -9,6 +9,7 @@ import CallLogs from "@/pages/CallLogs";
 import UserManagement from "@/pages/UserManagement";
 import KnowledgeBase from "@/pages/KnowledgeBase";
 import BatchCalling from "@/pages/BatchCalling";
+import { Reports } from "@/pages/Reports";
 
 const Router: React.FC = () => (
   <Routes>
@@ -17,6 +18,7 @@ const Router: React.FC = () => (
     <Route path="/user-management" element={<UserManagement />} />
     <Route path="/knowledge-base" element={<KnowledgeBase />} />
     <Route path="/batch-calling" element={<BatchCalling />} />
+    <Route path="reports" element={<Reports />} />
     <Route element={<PrivateRoute />}>
       {/* <Route path="/login" element={<LoginPage />} /> */}
       <Route element={<DashboardLayout />}>
