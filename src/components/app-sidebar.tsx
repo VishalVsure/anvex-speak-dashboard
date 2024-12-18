@@ -59,7 +59,7 @@ const data = {
       items: [
         {
           title: "Knowledge Source",
-          url: "#",
+          url: "knowledge-base",
         },
         {
           title: "Knowledge Configuration",
@@ -69,18 +69,18 @@ const data = {
     },
     {
       title: "Batch Calling",
-      url: "#",
+      url: "batch-calling",
       icon: Headset,
       items: [
         {
           title: "Start Campaign",
-          url: "#",
+          url: "batch-calling",
         },
       ],
     },
     {
       title: "Call Logs",
-      url: "#",
+      url: "call-logs",
       icon: PhoneCall,
       items: [
         {
@@ -95,7 +95,7 @@ const data = {
     },
     {
       title: "Reports",
-      url: "#",
+      url: "call-records",
       icon: ChartNoAxesCombined,
       items: [
         {
@@ -110,7 +110,7 @@ const data = {
     },
     {
       title: "User Management",
-      url: "#",
+      url: "user-management",
       icon: UsersRound,
       items: [
         {
@@ -125,7 +125,7 @@ const data = {
     },
     {
       title: "Profile",
-      url: "#",
+      url: "about-us",
       icon: CircleUserRound,
       items: [
         {
