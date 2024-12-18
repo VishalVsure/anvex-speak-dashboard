@@ -12,7 +12,6 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Play } from "lucide-react";
-import DashboardLayout from "@/layout/DashboardLayout";
 import CustomVoiceSample from "@/components/CustomVoice";
 
 // Simulated voice data
@@ -64,7 +63,7 @@ export default function VoiceSelection() {
   // };
 
   return (
-    <DashboardLayout>
+    <>
       <Card className="w-full mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Voices we offer</CardTitle>
@@ -151,6 +150,6 @@ export default function VoiceSelection() {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 }

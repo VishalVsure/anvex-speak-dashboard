@@ -1,4 +1,13 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  Book,
+  Bot,
+  ChartNoAxesCombined,
+  CircleUserRound,
+  Headset,
+  PhoneCall,
+  UsersRound,
+  Wallet,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -14,29 +23,44 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Agent",
     url: "#",
-    icon: Home,
+    icon: Bot,
   },
   {
-    title: "Inbox",
+    title: "Knowledge Base",
     url: "#",
-    icon: Inbox,
+    icon: Book,
   },
   {
-    title: "Calendar",
+    title: "Batch Calling",
     url: "#",
-    icon: Calendar,
+    icon: Headset,
   },
   {
-    title: "Search",
+    title: "Call Logs",
     url: "#",
-    icon: Search,
+    icon: PhoneCall,
   },
   {
-    title: "Settings",
+    title: "Reports",
     url: "#",
-    icon: Settings,
+    icon: ChartNoAxesCombined,
+  },
+  {
+    title: "User Management",
+    url: "#",
+    icon: UsersRound,
+  },
+  {
+    title: "Profile",
+    url: "#",
+    icon: CircleUserRound,
+  },
+  {
+    title: "Billing",
+    url: "#",
+    icon: Wallet,
   },
 ];
 

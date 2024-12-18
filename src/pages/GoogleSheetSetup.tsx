@@ -149,104 +149,102 @@ export default function ExcelUploader() {
     }
   };
   return (
-    <DashboardLayout>
-      <div className="">
-        {/* <Card className="w-full"> */}
-        <CardHeader className="space-y-0 p-0 px-6">
-          <CardTitle className="flex items-center justify-between text-2xl pt-1 pb-2">
-            <p>File Uploader</p>
+    <div className="">
+      {/* <Card className="w-full"> */}
+      <CardHeader className="space-y-0 p-0 px-6">
+        <CardTitle className="flex items-center justify-between text-2xl pt-1 pb-2">
+          <p>File Uploader</p>
 
-            {/* <Switch /> */}
-          </CardTitle>
-          <CardDescription className="pb-2">
-            Select a excel file to make the calls
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center h-full space-x-4 mb-4">
-            <Button
-              type="button"
-              onClick={triggerFileInput}
-              // className="px-4 py- bg-black text-white rounded"
-              className="text-lg font-normal"
-            >
-              Choose File
-            </Button>
+          {/* <Switch /> */}
+        </CardTitle>
+        <CardDescription className="pb-2">
+          Select a excel file to make the calls
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center h-full space-x-4 mb-4">
+          <Button
+            type="button"
+            onClick={triggerFileInput}
+            // className="px-4 py- bg-black text-white rounded"
+            className="text-lg font-normal"
+          >
+            Choose File
+          </Button>
 
-            <input
-              type="file"
-              accept=".xlsx, .xls"
-              ref={fileInputRef}
-              onChange={handleFileUpload}
-              className="hidden"
-            />
-          </div>
+          <input
+            type="file"
+            accept=".xlsx, .xls"
+            ref={fileInputRef}
+            onChange={handleFileUpload}
+            className="hidden"
+          />
+        </div>
 
-          {error && <p className="text-red-500 mb-4">{error}</p>}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
 
-          {fileName && !error && <p className="mb-4">Previewing {fileName}</p>}
+        {fileName && !error && <p className="mb-4">Previewing {fileName}</p>}
 
-          {excelData.length > 0 && (
-            <div className="h-3/4 overflow-x-auto border-2 rounded-md shadow-lg">
-              <div className="max-h-[500px] overflow-y-auto ">
-                <Table>
-                  <TableHeader className="sticky top-0 bg-white z-10">
-                    <TableRow>
-                      {excelData[0].map((header, index) => (
-                        <TableHead
-                          key={index}
-                          className="px-4 py-2 border-b text-left font-medium bg-slate-100"
+        {excelData.length > 0 && (
+          <div className="h-3/4 overflow-x-auto border-2 rounded-md shadow-lg">
+            <div className="max-h-[500px] overflow-y-auto ">
+              <Table>
+                <TableHeader className="sticky top-0 bg-white z-10">
+                  <TableRow>
+                    {excelData[0].map((header, index) => (
+                      <TableHead
+                        key={index}
+                        className="px-4 py-2 border-b text-left font-medium bg-slate-100"
+                      >
+                        {header}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {excelData.slice(1).map((row, rowIndex) => (
+                    <TableRow key={rowIndex} className="hover:bg-gray-100">
+                      {row.map((cell, cellIndex) => (
+                        <TableCell
+                          key={cellIndex}
+                          className="px-4 py-2 border-b"
                         >
-                          {header}
-                        </TableHead>
+                          {cell}
+                        </TableCell>
                       ))}
                     </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {excelData.slice(1).map((row, rowIndex) => (
-                      <TableRow key={rowIndex} className="hover:bg-gray-100">
-                        {row.map((cell, cellIndex) => (
-                          <TableCell
-                            key={cellIndex}
-                            className="px-4 py-2 border-b"
-                          >
-                            {cell}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
+          </div>
+        )}
+        <div className="flex items-center justify-start pt-4">
+          {excelData.length > 0 && !submitted && (
+            <Button onClick={handleSubmit} disabled={loading} size="lg">
+              <p className="text-lg font-normal">
+                {loading ? "Uploading..." : "Upload"}
+              </p>
+            </Button>
           )}
-          <div className="flex items-center justify-start pt-4">
-            {excelData.length > 0 && !submitted && (
-              <Button onClick={handleSubmit} disabled={loading} size="lg">
-                <p className="text-lg font-normal">
-                  {loading ? "Uploading..." : "Upload"}
+        </div>
+        {submitted && (
+          <div className="flex items-center justify-start pt-1">
+            {/* Button toggles checked state */}
+            {!checked ? (
+              <Button onClick={handleToggle} size="lg">
+                <p className="text-lg ">
+                  {checked ? "Stop Calls" : "Start Calls"}
                 </p>
               </Button>
+            ) : (
+              <>Calls in progress</>
             )}
           </div>
-          {submitted && (
-            <div className="flex items-center justify-start pt-1">
-              {/* Button toggles checked state */}
-              {!checked ? (
-                <Button onClick={handleToggle} size="lg">
-                  <p className="text-lg ">
-                    {checked ? "Stop Calls" : "Start Calls"}
-                  </p>
-                </Button>
-              ) : (
-                <>Calls in progress</>
-              )}
-            </div>
-          )}
-        </CardContent>
-        {/* </Card> */}
-        <Toaster position="bottom-center" />
-      </div>
-    </DashboardLayout>
+        )}
+      </CardContent>
+      {/* </Card> */}
+      <Toaster position="bottom-center" />
+    </div>
   );
 }

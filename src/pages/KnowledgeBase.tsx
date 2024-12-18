@@ -42,62 +42,60 @@ export default function KnowledgeBaseUpload() {
   };
 
   return (
-    <DashboardLayout>
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">
-            Upload Knowledge Base
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <label
-                htmlFor="pdf-upload"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Upload PDF
-              </label>
-              <Input
-                id="pdf-upload"
-                type="file"
-                accept=".pdf"
-                onChange={handleFileChange}
-                className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
-              />
-            </div>
-
-            {file && (
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <FileUp size={16} />
-                <span>{file.name}</span>
-              </div>
-            )}
-
-            {uploadStatus === "error" && (
-              <div className="flex items-center space-x-2 text-sm text-red-600">
-                <AlertCircle size={16} />
-                <span>Please select a valid PDF file.</span>
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              disabled={!file || isUploading}
-              className="w-full bg-black"
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold">
+          Upload Knowledge Base
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label
+              htmlFor="pdf-upload"
+              className="block text-sm font-medium text-gray-700"
             >
-              {isUploading ? "Uploading..." : "Upload PDF"}
-            </Button>
+              Upload PDF
+            </label>
+            <Input
+              id="pdf-upload"
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+            />
+          </div>
 
-            {uploadStatus === "success" && (
-              <div className="flex items-center space-x-2 text-sm text-green-600">
-                <Check size={16} />
-                <span>Upload successful!</span>
-              </div>
-            )}
-          </form>
-        </CardContent>
-      </Card>
-    </DashboardLayout>
+          {file && (
+            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+              <FileUp size={16} />
+              <span>{file.name}</span>
+            </div>
+          )}
+
+          {uploadStatus === "error" && (
+            <div className="flex items-center space-x-2 text-sm text-red-600">
+              <AlertCircle size={16} />
+              <span>Please select a valid PDF file.</span>
+            </div>
+          )}
+
+          <Button
+            type="submit"
+            disabled={!file || isUploading}
+            className="w-full bg-black"
+          >
+            {isUploading ? "Uploading..." : "Upload PDF"}
+          </Button>
+
+          {uploadStatus === "success" && (
+            <div className="flex items-center space-x-2 text-sm text-green-600">
+              <Check size={16} />
+              <span>Upload successful!</span>
+            </div>
+          )}
+        </form>
+      </CardContent>
+    </Card>
   );
 }
