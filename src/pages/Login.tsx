@@ -54,6 +54,7 @@ export default function LoginPage() {
         console.log(userData);
         navigate("/call-records");
         dispatch(set_user(userData));
+        localStorage.setItem("isLogin", "true");
         toast.dismiss(loader);
         toast.success("signed in");
       }
