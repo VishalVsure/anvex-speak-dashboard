@@ -63,13 +63,13 @@ const data = {
         },
         {
           title: "Knowledge Configuration",
-          url: "#",
+          url: "knowledge-base",
         },
       ],
     },
     {
       title: "Batch Calling",
-      url: "batch-calling",
+      url: "#",
       icon: Headset,
       items: [
         {
@@ -80,57 +80,57 @@ const data = {
     },
     {
       title: "Call Logs",
-      url: "call-logs",
+      url: "#",
       icon: PhoneCall,
       items: [
         {
           title: "Caller List",
-          url: "#",
+          url: "call-logs",
         },
         {
           title: "Campaign",
-          url: "#",
+          url: "call-logs",
         },
       ],
     },
     {
       title: "Reports",
-      url: "call-records",
+      url: "#",
       icon: ChartNoAxesCombined,
       items: [
         {
           title: "Caller List",
-          url: "#",
+          url: "reports",
         },
         {
           title: "Campaign",
-          url: "#",
+          url: "reports",
         },
       ],
     },
     {
       title: "User Management",
-      url: "user-management",
+      url: "#",
       icon: UsersRound,
       items: [
         {
           title: "Caller List",
-          url: "#",
+          url: "user-management",
         },
         {
           title: "Campaign",
-          url: "#",
+          url: "user-management",
         },
       ],
     },
     {
       title: "Profile",
-      url: "about-us",
+      url: "#",
       icon: CircleUserRound,
       items: [
         {
           title: "Caller List",
-          url: "#",
+          url: "about-us",
         },
         {
           title: "Campaign",

@@ -43,16 +43,10 @@ export function NavMain({
             asChild
             defaultOpen={item.isActive}
             className="group/collapsible"
-            onClick={() => navigate(item.url)}
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton
-                  tooltip={item.title}
-                  onClick={() => {
-                    navigate(item.url);
-                  }}
-                >
+                <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                   {item.items && (
@@ -65,11 +59,13 @@ export function NavMain({
                   <SidebarMenuSub>
                     {item.items.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton
-                          asChild
-                          onClick={() => navigate(subItem.url)}
-                        >
-                          <div>{subItem.title}</div>
+                        <SidebarMenuSubButton asChild>
+                          <div
+                            onClick={() => navigate(`/${subItem.url}`)}
+                            className="cursor-pointer"
+                          >
+                            {subItem.title}
+                          </div>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}
