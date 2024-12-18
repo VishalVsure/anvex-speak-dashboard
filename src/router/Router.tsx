@@ -18,7 +18,7 @@ const Router: React.FC = () => (
     <Route path="/user-management" element={<UserManagement />} />
     <Route path="/knowledge-base" element={<KnowledgeBase />} />
     <Route path="/batch-calling" element={<BatchCalling />} />
-    <Route path="reports" element={<Reports />} />
+    <Route path="/reports" element={<Reports />} />
     <Route element={<PrivateRoute />}>
       {/* <Route path="/login" element={<LoginPage />} /> */}
       <Route element={<DashboardLayout />}>
