@@ -1,6 +1,4 @@
-"use client";
-
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 import {
   Collapsible,
@@ -9,7 +7,6 @@ import {
 } from "@/components/ui/collapsible";
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -48,7 +45,13 @@ export function NavMain({
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+                  {item.items ? (
+                    <span>{item.title}</span>
+                  ) : (
+                    <span onClick={() => navigate(`/${item.url}`)}>
+                      {item.title}
+                    </span>
+                  )}
                   {item.items && (
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   )}

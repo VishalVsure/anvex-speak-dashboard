@@ -124,6 +124,11 @@ const data = {
       ],
     },
     {
+      title: "Company Management",
+      url: "company",
+      icon: UsersRound,
+    },
+    {
       title: "Profile",
       url: "#",
       icon: CircleUserRound,
