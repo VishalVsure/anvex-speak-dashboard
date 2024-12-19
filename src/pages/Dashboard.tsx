@@ -1,5 +1,9 @@
+import { RootState } from "@/state/store";
+import { useSelector } from "react-redux";
+
 const Dashboard = () => {
-  return <div>sup</div>;
+  const username = useSelector((state: RootState) => state.user.username);
+  return <div>sup {username}</div>;
 };
 
 export default Dashboard;

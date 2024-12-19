@@ -25,6 +25,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useDispatch } from "react-redux";
+import { log_out } from "@/state/user/UserSlice";
 
 export function NavUser({
   user,
@@ -35,7 +37,12 @@ export function NavUser({
     avatar: string;
   };
 }) {
+  const dispatch = useDispatch();
   const { isMobile } = useSidebar();
+
+  const handleLogOut = () => {
+    dispatch(log_out());
+  };
 
   return (
     <SidebarMenu>
@@ -98,7 +105,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleLogOut()}>
               <LogOut />
               Log out
             </DropdownMenuItem>

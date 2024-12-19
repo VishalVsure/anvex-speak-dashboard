@@ -177,7 +177,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const activeTeam = data.teams[0];
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader className="flex flex-row py-4 px-4">
+      <SidebarHeader className="flex flex-row py-4">
         <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
           <activeTeam.logo className="size-4" />
         </div>

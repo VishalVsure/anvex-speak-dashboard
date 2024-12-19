@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export default function UserManagement() {
   return (
-    <div className="p-6 max-w-[1200px] mx-auto">
+    <div className="p-6 w-full mx-auto">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">
