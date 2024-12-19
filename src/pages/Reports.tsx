@@ -62,7 +62,7 @@ function StatsCard({
 
 export function Reports() {
   return (
-    <div className="min-h-screen bg-gray-50/40 dark:bg-gray-900/40 p-8">
+    <div className="w-full bg-gray-50/40 dark:bg-gray-900/40 p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex justify-between items-center">

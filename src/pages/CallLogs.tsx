@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function CallLogs() {
   return (
-    <div className="p-6 max-w-[1200px] mx-auto">
+    <div className="p-6 w-full mx-auto">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">call-logs</h1>

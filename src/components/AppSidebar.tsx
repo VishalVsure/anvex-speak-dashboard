@@ -20,7 +20,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-// Menu items.
 const items = [
   {
     title: "Agent",
@@ -29,32 +28,32 @@ const items = [
   },
   {
     title: "Knowledge Base",
-    url: "#",
+    url: "knowledge-base",
     icon: Book,
   },
   {
     title: "Batch Calling",
-    url: "#",
+    url: "batch-calling",
     icon: Headset,
   },
   {
     title: "Call Logs",
-    url: "#",
+    url: "call-logs",
     icon: PhoneCall,
   },
   {
     title: "Reports",
-    url: "#",
+    url: "call-records",
     icon: ChartNoAxesCombined,
   },
   {
     title: "User Management",
-    url: "#",
+    url: "user-management",
     icon: UsersRound,
   },
   {
     title: "Profile",
-    url: "#",
+    url: "about-us",
     icon: CircleUserRound,
   },
   {

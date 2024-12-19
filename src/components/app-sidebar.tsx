@@ -59,11 +59,11 @@ const data = {
       items: [
         {
           title: "Knowledge Source",
-          url: "#",
+          url: "knowledge-base",
         },
         {
           title: "Knowledge Configuration",
-          url: "#",
+          url: "knowledge-base",
         },
       ],
     },
@@ -74,7 +74,7 @@ const data = {
       items: [
         {
           title: "Start Campaign",
-          url: "#",
+          url: "batch-calling",
         },
       ],
     },
@@ -85,11 +85,11 @@ const data = {
       items: [
         {
           title: "Caller List",
-          url: "#",
+          url: "call-logs",
         },
         {
           title: "Campaign",
-          url: "#",
+          url: "call-logs",
         },
       ],
     },
@@ -100,11 +100,11 @@ const data = {
       items: [
         {
           title: "Caller List",
-          url: "#",
+          url: "reports",
         },
         {
           title: "Campaign",
-          url: "#",
+          url: "reports",
         },
       ],
     },
@@ -115,13 +115,18 @@ const data = {
       items: [
         {
           title: "Caller List",
-          url: "#",
+          url: "user-management",
         },
         {
           title: "Campaign",
-          url: "#",
+          url: "user-management",
         },
       ],
+    },
+    {
+      title: "Company Management",
+      url: "company",
+      icon: UsersRound,
     },
     {
       title: "Profile",
@@ -130,7 +135,7 @@ const data = {
       items: [
         {
           title: "Caller List",
-          url: "#",
+          url: "about-us",
         },
         {
           title: "Campaign",
@@ -177,7 +182,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const activeTeam = data.teams[0];
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader className="flex flex-row py-4 px-4">
+      <SidebarHeader className="flex flex-row py-4">
         <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
           <activeTeam.logo className="size-4" />
         </div>
