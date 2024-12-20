@@ -1,197 +1,236 @@
-"use client";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { toast } from "sonner";
-
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
+import { Eye, Trash2 } from "lucide-react";
+import CompanyForm from "@/components/company/AddCompany";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
+import toast from "react-hot-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import EditCompany from "@/components/company/UpdateCompany";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-// Form validation schema
-const companyFormSchema = z.object({
-  company_name: z.string().min(2, {
-    message: "Company name must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  phone: z.string().min(10, {
-    message: "Phone number must be at least 10 digits.",
-  }),
-  GST: z.string().min(15).max(15, {
-    message: "GST number must be exactly 15 characters.",
-  }),
-  address: z.string().min(10, {
-    message: "Please enter a complete address.",
-  }),
-});
+interface CompanyInterface {
+  GST: string;
+  _id: string;
+  address: string;
+  company_name: string;
+  email: string;
+  user_id: string[];
+  createdAt: string;
+  updatedAt: string;
+  logo?: string;
+}
 
-export default function CompanyForm() {
+const Company = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [change, setChange] = useState<boolean>(false);
+  const [edit, setEdit] = useState(false);
+  const [companies, setCompanies] = useState<CompanyInterface[]>([]);
+  const permission = useSelector((state: RootState) => state.user.permissions);
+  const permissionsArray = Array.isArray(permission)
+    ? permission
+    : Object.values(permission);
+
   const token = useSelector((state: RootState) => state.user.token);
-  const form = useForm<z.infer<typeof companyFormSchema>>({
-    resolver: zodResolver(companyFormSchema),
-    defaultValues: {
-      company_name: "",
-      email: "",
-      phone: "",
-      GST: "",
-      address: "",
-    },
-  });
 
-  async function onSubmit(values: z.infer<typeof companyFormSchema>) {
+  const fetchCompany = async () => {
+    if (!token) {
+      toast.error("No token found. Please log in.");
+      return;
+    }
+
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/company",
-        values, // Data to send in the request body
+      const response = await axios.get("http://localhost:3000/api/company", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        console.log(response.data);
+        setCompanies(response.data);
+        toast.success("Companies fetched successfully!");
+      }
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+      toast.error("Failed to fetch companies.");
+    }
+  };
+  const deleteCompany = async (id: string) => {
+    if (!token) {
+      toast.error("No token found. Please log in.");
+      return;
+    }
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/api/company/${id}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`, // Token in the headers
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       if (response.status === 200 && response.data) {
-        toast.success("Company created successfully");
+        console.log(response.data);
+        setChange(!change);
+
+        toast.success("Company deleted!");
       }
-      toast.success("Company information submitted successfully!");
-      form.reset();
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 401) {
-        toast.error("Unauthorized: No token provided or token is invalid.");
-      } else {
-        toast.error("Failed to submit company information. Please try again.");
-      }
-      console.error("Error:", error);
+      console.error("Error deleting companies:", error);
+      toast.error("Failed to delete company.");
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchCompany();
+  }, [change]);
 
   return (
-    <div className="container mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>Company Registration</CardTitle>
-          <CardDescription>
-            Enter your company details below. All fields are required unless
-            marked optional.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="company_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Company Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter company name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex justify-between gap-4">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="company@example.com"
-                          className="w-full"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+    <div className="w-full px-4">
+      <h1 className="text-xl font-semibold mb-4">Company Management</h1>
+      <div className="mb-4 space-x-2">
+        <Button onClick={() => setIsOpen(true)}>Add Company</Button>
+        <Button variant="outline" onClick={fetchCompany}>
+          Fetch Companies
+        </Button>
+      </div>
 
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter phone number" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div
+            className="absolute inset-0"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
+          <div
+            className="bg-white rounded-lg shadow-md w-full max-w-3xl relative z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <CompanyForm
+              change={change}
+              setChange={setChange}
+              setIsOpen={setIsOpen}
+            />
+            <Button
+              className="absolute top-4 right-4"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+            >
+              X
+            </Button>
+          </div>
+        </div>
+      )}
 
-                <FormField
-                  control={form.control}
-                  name="GST"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>GST Number</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter 15-digit GST number"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Must be exactly 15 characters long
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter complete address"
-                        rows={5}
-                        {...field}
+      <div className="">
+        <h2 className="text-lg font-semibold mb-2">Companies</h2>
+        {companies.length > 0 ? (
+          <div className="space-y-4">
+            {companies.map((company) => (
+              <div
+                key={company._id}
+                className="p-4 border rounded-lg shadow-md bg-white flex justify-between items-center"
+              >
+                <div className="flex items-center gap-2">
+                  <Avatar className="h-14 w-14 rounded-full">
+                    <AvatarImage
+                      src={company.logo}
+                      alt={company.company_name}
+                    />
+                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  </Avatar>
+                  <h3 className="text-lg font-semibold">
+                    {company.company_name}
+                  </h3>
+                </div>
+                <div className="flex gap-2 justify-between items-center">
+                  <Button
+                    className=""
+                    onClick={() => {
+                      setEdit(true);
+                    }}
+                  >
+                    <Eye className="h-4 w-4" />
+                    <span className="sr-only">View company details</span>
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger
+                      disabled={!permissionsArray.includes("delete_company")}
+                      className="bg-red-500 text-neutral-50 shadow-sm hover:bg-red-500/90 dark:bg-red-900 dark:text-neutral-50 dark:hover:bg-red-900/90 px-4 py-3 rounded-lg"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      <span className="sr-only">Delete Company</span>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete the company and its data.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => deleteCompany(company._id)}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+                {edit && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div
+                      className="absolute inset-0"
+                      onClick={() => setEdit(false)}
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="bg-white rounded-lg shadow-md w-full max-w-3xl relative z-10"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <EditCompany
+                        defaultValues={company}
+                        id={company._id}
+                        change={change}
+                        setChange={setChange}
+                        setIsOpen={setIsOpen}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                      <Button
+                        className="absolute top-4 right-4"
+                        variant="outline"
+                        onClick={() => setEdit(false)}
+                      >
+                        X
+                      </Button>
+                    </div>
+                  </div>
                 )}
-              />
-
-              <Button type="submit" className="w-full">
-                Register Company
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No companies found. Click "Fetch Companies" to load data.</p>
+        )}
+      </div>
     </div>
   );
-}
+};
+
+export default Company;
+
+//setEdit, setChange, change

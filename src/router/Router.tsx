@@ -14,7 +14,7 @@ import LoginPage from "@/pages/Login";
 import { Reports } from "@/pages/Reports";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
-import CompanyForm from "@/pages/Company";
+import Company from "@/pages/Company";
 
 const Router: React.FC = () => {
   const isLogin = useSelector(
@@ -31,7 +31,7 @@ const Router: React.FC = () => {
       <Route element={<PrivateRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path="/call-logs" element={<CallLogs />} />
-          <Route path="/company" element={<CompanyForm />} />
+          <Route path="/company" element={<Company />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/knowledge-base" element={<KnowledgeBase />} />
           <Route path="/batch-calling" element={<BatchCalling />} />
